@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {useState} from "react";
-import {register} from "../lib/api";
+import {login, register} from "../lib/api";
 
 export function App() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [token, setToken] = useState(null)
 
   const onRegister = async () => {
     if (!email && !password && email === '' && password === '') {
@@ -12,6 +13,15 @@ export function App() {
     }
     const loginResponse = await register(email, password)
     console.log(loginResponse)
+  }
+
+  const onLogin = async () => {
+    if (!email && !password && email === '' && password === '') {
+      return
+    }
+    const loginResponse = await login(email, password)
+    console.log(loginResponse)
+    setToken(loginResponse.data.token)
   }
 
   return (
@@ -33,11 +43,11 @@ export function App() {
                      onChange={event => setPassword(event.target.value)}/>
             </div>
             <div style={{padding: 20}}>
-              <button style={{marginRight: 10}}>Login with Rest</button>
+              <button style={{marginRight: 10}} onClick={onLogin}>Login with Rest</button>
               <button onClick={onRegister}>Register with Rest</button>
             </div>
             <div style={{padding: 20}}>
-              <span>On Login the token will be displayed here</span>
+              <span>On Login the token will be displayed here {token !== null && token}</span>
             </div>
           </div>
         </div>
