@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 
 import {AppService} from './app.service';
+import {RegisterDto} from "./Dto/register.dto";
 
 @Controller()
 export class AppController {
@@ -18,7 +19,7 @@ export class AppController {
   }
 
   @Post('register')
-  async register(@Body() body) {
+  async register(@Body() body: RegisterDto) {
     return this.appService.register(body)
   }
 }
